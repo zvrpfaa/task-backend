@@ -1,9 +1,21 @@
 services:
-  postgres:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5433/address_db'
+      SPRING_DATASOURCE_USERNAME: 'epavfra'
+      SPRING_DATASOURCE_PASSWORD: 'mypassword'
+    depends_on:
+      - db
+  db:
     image: 'postgres:latest'
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+        POSTGRES_DB: 'address_db'
+        POSTGRES_PASSWORD: 'mypassword'
+        POSTGRES_USER: 'epavfra'
     ports:
-      - '5432'
+      - "5433:5432"
