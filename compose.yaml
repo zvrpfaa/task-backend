@@ -12,9 +12,7 @@ services:
     depends_on:
       - db
   db:
-    build:
-      context: ./db
-      dockerfile: Dockerfile
+    image: postgres:latest
     environment:
         POSTGRES_DB: 'address_db'
         POSTGRES_PASSWORD: 'mypassword'
