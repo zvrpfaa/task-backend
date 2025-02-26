@@ -6,16 +6,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5433/address_db'
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5432/address_db'
       SPRING_DATASOURCE_USERNAME: 'epavfra'
       SPRING_DATASOURCE_PASSWORD: 'mypassword'
     depends_on:
       - db
   db:
-    image: 'postgres:latest'
+    image: postgres:latest
     environment:
         POSTGRES_DB: 'address_db'
         POSTGRES_PASSWORD: 'mypassword'
         POSTGRES_USER: 'epavfra'
     ports:
-      - "5433:5432"
+      - "5432:5432"
