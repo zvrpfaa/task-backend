@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 public interface PersonService {
   Collection<PersonDto> getAllPersons();
 
+  Collection<PersonDto> filterPersons(final String name, final String surname, final String sex);
+
   PersonDto getPersonById(final Long id) throws PersonNotFoundException;
 
   PersonDto createPerson(final PersonDto personDto);
@@ -20,10 +22,6 @@ public interface PersonService {
 
   PersonDto addPhoneNumbers(final Long id, final Collection<String> phoneNumbers)
       throws PersonNotFoundException;
-
-  Collection<PersonDto> filterBySex(final Sex sex);
-
-  Collection<PersonDto> filterBySurname(final String surname);
 
   void deletePerson(Long id);
 }

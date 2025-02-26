@@ -11,6 +11,7 @@ import com.epavfra.task.dto.PersonDto;
 import com.epavfra.task.model.Person;
 import com.epavfra.task.model.Sex;
 import com.epavfra.task.service.PersonService;
+import com.epavfra.task.utils.constants.ApiPaths;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class PersonControllerTest {
             .build();
     when(personService.createPerson(any(PersonDto.class))).thenReturn(personDto);
     this.mockMvc.perform(
-        post("/api/v1/persons/create")
+        post(ApiPaths.PERSONS_PATH)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(personDto)))
         .andExpect(status().isCreated())

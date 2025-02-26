@@ -9,9 +9,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Long>, JpaSpecificationExecutor<Person> {
-
-  Collection<Person> findBySex(final Sex sex);
-
-  Collection<Person> findBySurnameContainingIgnoreCase(final String surname);
-}
+public interface PersonRepository
+    extends JpaRepository<Person, Long>, JpaSpecificationExecutor<Person> {}

@@ -1,17 +1,16 @@
 package com.epavfra.task.service;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.epavfra.task.dto.PersonDto;
 import com.epavfra.task.exception.PersonNotFoundException;
 import com.epavfra.task.mapper.PersonMapper;
 import com.epavfra.task.model.Person;
-import com.epavfra.task.model.Sex;
 import com.epavfra.task.repository.PersonRepository;
+import com.epavfra.task.utils.specification.PersonSpecification;
 import jakarta.transaction.Transactional;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,8 @@ public class PersonServiceImpl implements PersonService {
 
   private final PersonRepository personRepository;
 
-  public PersonServiceImpl(final PersonRepository personRepository) {
+  public PersonServiceImpl(
+      final PersonRepository personRepository) {
     this.personRepository = personRepository;
   }
 
@@ -29,6 +29,16 @@ public class PersonServiceImpl implements PersonService {
   public Collection<PersonDto> getAllPersons() {
     Collection<Person> persons = personRepository.findAll();
     return persons.stream().map(PersonMapper.INSTANCE::toDto).collect(Collectors.toSet());
+  }
+
+  @Override
+  public Collection<PersonDto> filterPersons(
+      final String name, final String surname, final String sex) {
+    Specification<Person> spec =
+        PersonSpecification.filterByCriteria(name, surname, sex);
+    return personRepository.findAll(spec).stream()
+        .map(PersonMapper.INSTANCE::toDto)
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -79,20 +89,6 @@ public class PersonServiceImpl implements PersonService {
     person.getPhoneNumbers().addAll(phoneNumbers);
     Person savedPerson = personRepository.save(person);
     return PersonMapper.INSTANCE.toDto(savedPerson);
-  }
-
-  @Override
-  public Collection<PersonDto> filterBySex(final Sex sex) {
-    return personRepository.findBySex(sex).stream()
-        .map(PersonMapper.INSTANCE::toDto)
-        .collect(Collectors.toSet());
-  }
-
-  @Override
-  public Collection<PersonDto> filterBySurname(final String surname) {
-    return personRepository.findBySurnameContainingIgnoreCase(surname).stream()
-        .map(PersonMapper.INSTANCE::toDto)
-        .collect(Collectors.toSet());
   }
 
   @Override

@@ -81,7 +81,7 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
         .timestamp(LocalDateTime.now())
         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-        .message("An unexpected error occurred.")
+        .message("An unexpected error occurred. Exception message: " + ex.getMessage())
         .build();
 
     return ResponseEntity.internalServerError().body(errorResponse);
