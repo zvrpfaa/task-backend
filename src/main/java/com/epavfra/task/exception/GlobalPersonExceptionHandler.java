@@ -1,6 +1,7 @@
 package com.epavfra.task.exception;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,7 +84,8 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
         .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
         .message("An unexpected error occurred. Exception message: " + ex.getMessage())
         .build();
-
+      log.warn("Exception message: {}", ex.getMessage());
+      log.warn("STACK TRACE {}", Arrays.toString(ex.getStackTrace()));
     return ResponseEntity.internalServerError().body(errorResponse);
   }
 }
