@@ -35,13 +35,8 @@ public class PersonController {
 
   @GetMapping("/{id}")
   public ResponseEntity<PersonDto> getPersonById(final @PathVariable Long id) {
-    try {
-      PersonDto personDto = personService.getPersonById(id);
-      return ResponseEntity.ok(personDto);
-    } catch (PersonNotFoundException e) {
-      log.warn(e.getMessage());
-      return ResponseEntity.notFound().build();
-    }
+    PersonDto personDto = personService.getPersonById(id);
+    return ResponseEntity.ok(personDto);
   }
 
   @PostMapping("/create")

@@ -12,7 +12,6 @@ import com.epavfra.task.model.Sex;
 import com.epavfra.task.repository.PersonRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
