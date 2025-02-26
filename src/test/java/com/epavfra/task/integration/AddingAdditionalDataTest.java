@@ -63,7 +63,7 @@ public class AddingAdditionalDataTest {
               .getSingleResult();
       assertThat(updatedPerson.getEmailAddresses())
           .containsExactlyInAnyOrder(
-              "john1@example.com", "john2@example.com", "john3@example.com", "johnSmith.gmail.com");
+              "john1@example.com", "john2@example.com", "john3@example.com", "johnSmith@gmail.com");
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
@@ -83,8 +83,8 @@ public class AddingAdditionalDataTest {
                 .content(
                     """
       [
-      "+1222234567",
-      "+1522234533"
+      "+122-2234567",
+      "+152-2234533"
       ]
     """))
         .andExpect(status().isCreated());
@@ -99,7 +99,7 @@ public class AddingAdditionalDataTest {
               .setParameter("id", 1L)
               .getSingleResult();
       assertThat(updatedPerson.getPhoneNumbers())
-          .containsExactlyInAnyOrder("+1222234567", "+1522234533", "+1234567890");
+          .containsExactlyInAnyOrder("+122-2234567", "+152-2234533", "+123-45627890");
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
@@ -117,8 +117,8 @@ public class AddingAdditionalDataTest {
                     "surname": "Smith",
                     "pin": "12345678901",
                     "sex": "MALE",
-                    "emailAddresses": ["johnSmith.gmail.com"],
-                    "phoneNumbers": ["+1234567890"]
+                    "emailAddresses": ["johnSmith@gmail.com"],
+                    "phoneNumbers": ["+123-45627890"]
                 }
         """;
     mockMvc

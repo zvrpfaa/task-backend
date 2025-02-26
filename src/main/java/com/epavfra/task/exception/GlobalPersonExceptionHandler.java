@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -42,7 +44,6 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
             .message("Validation failed for one or more fields")
             .fieldErrors(fieldErrors)
             .build();
-
     return ResponseEntity.badRequest().body(errorResponse);
   }
 

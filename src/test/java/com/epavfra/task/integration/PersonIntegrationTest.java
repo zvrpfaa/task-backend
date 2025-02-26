@@ -93,8 +93,8 @@ public class PersonIntegrationTest {
                     "surname": "Smith",
                     "pin": "12345678901",
                     "sex": "MALE",
-                    "emailAddresses": ["johnSmith.gmail.com"],
-                    "phoneNumbers": ["+1234567890"]
+                    "emailAddresses": ["johnSmith@gmail.com"],
+                    "phoneNumbers": ["+123-4567890"]
                 }
                 """;
     mockMvc
@@ -114,8 +114,8 @@ public class PersonIntegrationTest {
                 "surname": "Smith",
                 "pin": "12345678901",
                 "sex": "MALE",
-                "emailAddresses": ["johnSmith.gmail.com"],
-                "phoneNumbers": ["+1234567890"]
+                "emailAddresses": ["johnSmith@gmail.com"],
+                "phoneNumbers": ["+123-4567890"]
             }
             """,
                 """
@@ -124,8 +124,8 @@ public class PersonIntegrationTest {
                 "surname": "Smith",
                 "pin": "14345678901",
                 "sex": "FEMALE",
-                "emailAddresses": ["jane.gmail.com"],
-                "phoneNumbers": ["+1234567890"]
+                "emailAddresses": ["jane@gmail.com"],
+                "phoneNumbers": ["+123-4567890"]
             }
             """,
                 """
@@ -134,8 +134,8 @@ public class PersonIntegrationTest {
                 "surname": "Michaelson",
                 "pin": "52345678901",
                 "sex": "MALE",
-                "emailAddresses": ["michael.gmail.com"],
-                "phoneNumbers": ["+52345678440"]
+                "emailAddresses": ["michael@gmail.com"],
+                "phoneNumbers": ["+52-345678440"]
             }
             """)
             .collect(Collectors.toSet());

@@ -6,6 +6,7 @@ import com.epavfra.task.model.Sex;
 import com.epavfra.task.service.PersonService;
 import java.util.Collection;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,13 @@ public class PersonController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<PersonDto> getPersonById(final @PathVariable Long id) {
+  public ResponseEntity<PersonDto> getPersonById(@PathVariable final Long id) {
     PersonDto personDto = personService.getPersonById(id);
     return ResponseEntity.ok(personDto);
   }
 
   @PostMapping("/create")
-  public ResponseEntity<PersonDto> createPerson(final @RequestBody PersonDto personDto) {
+  public ResponseEntity<PersonDto> createPerson(@RequestBody @Valid final PersonDto personDto) {
     PersonDto createdPerson = personService.createPerson(personDto);
     return new ResponseEntity<>(createdPerson, HttpStatus.CREATED);
   }

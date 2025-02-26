@@ -33,7 +33,7 @@ class PersonControllerTest {
   void testCreatePerson() throws Exception {
     PersonDto personDto =
         new PersonDto.Builder("John", "Smith", "11223344556", Sex.MALE)
-            .addPhoneNumbers(Set.of("+15556454222", "+21231455353"))
+            .addPhoneNumbers(Set.of("+1-5556454222", "+212-31455353"))
             .addEmailAddresses(Set.of("johnsmith@gmail.com"))
             .build();
     when(personService.createPerson(any(PersonDto.class))).thenReturn(personDto);
