@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Person Management Frontend</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Person Management</h1>
+
+
+<h1>People Directory</h1>
+
+<div class="directory">
+    <div class="filters">
+        <input type="text" id="nameFilter" placeholder="Filter by Name...">
+        <input type="text" id="surnameFilter" placeholder="Filter by Surname...">
+        <select id="sexFilter">
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Sex</th>
+            <th>Email Addresses</th>
+            <th>Phone Numbers</th>
+        </tr>
+        </thead>
+        <tbody id="peopleTableBody">
+        </tbody>
+    </table>
+</div>
+
+<section id="create-person">
+    <h2>Create Person</h2>
+    <form id="createPersonForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required/>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required/>
+
+        <label for="pin">PIN:</label>
+        <input type="text" id="pin" name="pin" required/>
+
+        <label for="sex">Sex:</label>
+        <select id="sex" name="sex" required>
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Female</option>
+        </select>
+
+        <label for="emailAddresses">Email Addresses (comma separated):</label>
+        <input type="text" id="emailAddresses" name="emailAddresses"/>
+
+        <label for="phoneNumbers">Phone Numbers (comma separated):</label>
+        <input type="text" id="phoneNumbers" name="phoneNumbers"/>
+
+        <button type="submit">Create Person</button>
+    </form>
+
+</section>
+<div class="addAdditional">
+    <section id="add-phone">
+        <h2>Add Additional Phone Numbers</h2>
+        <form id="addPhoneForm">
+            <label for="personIdPhone">Person ID:</label>
+            <input type="text" id="personIdPhone" name="personId" required/>
+
+            <label for="phoneNumbersAdd">Phone Numbers (comma separated):</label>
+            <input type="text" id="phoneNumbersAdd" name="phoneNumbersAdd" required/>
+
+            <button type="submit">Add Phone Numbers</button>
+        </form>
+    </section>
+
+    <!-- Add Additional Email Addresses -->
+    <section id="add-email">
+        <h2>Add Additional Email Addresses</h2>
+        <form id="addEmailForm">
+            <label for="personIdEmail">Person ID:</label>
+            <input type="text" id="personIdEmail" name="personId" required/>
+
+            <label for="emailAddressesAdd">Email Addresses (comma separated):</label>
+            <input type="text" id="emailAddressesAdd" name="emailAddressesAdd" required/>
+
+            <button type="submit">Add Email Addresses</button>
+        </form>
+    </section>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>

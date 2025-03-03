@@ -11,6 +11,7 @@ import com.epavfra.task.dto.PersonDto;
 import com.epavfra.task.model.Person;
 import com.epavfra.task.model.Sex;
 import com.epavfra.task.service.PersonService;
+import com.epavfra.task.utils.constants.ApiPaths;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -33,12 +34,12 @@ class PersonControllerTest {
   void testCreatePerson() throws Exception {
     PersonDto personDto =
         new PersonDto.Builder("John", "Smith", "11223344556", Sex.MALE)
-            .addPhoneNumbers(Set.of("+15556454222", "+21231455353"))
+            .addPhoneNumbers(Set.of("+1-5556454222", "+212-31455353"))
             .addEmailAddresses(Set.of("johnsmith@gmail.com"))
             .build();
     when(personService.createPerson(any(PersonDto.class))).thenReturn(personDto);
     this.mockMvc.perform(
-        post("/api/v1/persons/create")
+        post(ApiPaths.PERSONS_PATH)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(personDto)))
         .andExpect(status().isCreated())

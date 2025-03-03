@@ -15,7 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PersonDto {
 
   @NotBlank(message = "Name is required")
@@ -41,7 +40,7 @@ public class PersonDto {
   @Valid
   private Collection<
           @NotBlank(message = "Phone number cannot be blank")
-          @Pattern(regexp = "\\+?[0-9]{1,3}-[0-9\\s]{7,15}", message = "Invalid phone number")
+          @Pattern(regexp = "^\\+[0-9]{1,3}-[0-9]{7,15}$", message = "Invalid phone number")
           String>
       phoneNumbers = new HashSet<>();
 

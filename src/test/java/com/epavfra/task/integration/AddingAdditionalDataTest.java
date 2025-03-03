@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epavfra.task.model.Person;
 import com.epavfra.task.repository.PersonRepository;
+import com.epavfra.task.utils.constants.ApiPaths;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -38,17 +40,24 @@ public class AddingAdditionalDataTest {
   @Test
   void addAdditionalEmailsTest() throws Exception {
     addPersonToDatabase();
+    Long personId = 1L;
+    String url =
+        UriComponentsBuilder.fromUriString(ApiPaths.ADD_ADDRESSES_PATH)
+            .buildAndExpand(personId)
+            .toUriString();
     mockMvc
         .perform(
-            post("/api/v1/persons/1/add_addresses")
+            post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-      [
+    {
+    "emailAddresses": [
       "john1@example.com",
       "john2@example.com",
       "john3@example.com"
       ]
+      }
     """))
         .andExpect(status().isCreated());
     EntityManager em = entityManagerFactory.createEntityManager();
@@ -63,7 +72,7 @@ public class AddingAdditionalDataTest {
               .getSingleResult();
       assertThat(updatedPerson.getEmailAddresses())
           .containsExactlyInAnyOrder(
-              "john1@example.com", "john2@example.com", "john3@example.com", "johnSmith.gmail.com");
+              "john1@example.com", "john2@example.com", "john3@example.com", "johnSmith@gmail.com");
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
@@ -76,16 +85,23 @@ public class AddingAdditionalDataTest {
   @Test
   void addAdditionalPhoneNumbers() throws Exception {
     addPersonToDatabase();
+    Long personId = 1L;
+    String url =
+        UriComponentsBuilder.fromUriString(ApiPaths.ADD_PHONE_NUMBERS_PATH)
+            .buildAndExpand(personId)
+            .toUriString();
     mockMvc
         .perform(
-            post("/api/v1/persons/1/add_phone_numbers")
+            post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-      [
-      "+1222234567",
-      "+1522234533"
+      {
+      "phoneNumbers": [
+      "+122-2234567",
+      "+152-2234533"
       ]
+      }
     """))
         .andExpect(status().isCreated());
     EntityManager em = entityManagerFactory.createEntityManager();
@@ -99,7 +115,7 @@ public class AddingAdditionalDataTest {
               .setParameter("id", 1L)
               .getSingleResult();
       assertThat(updatedPerson.getPhoneNumbers())
-          .containsExactlyInAnyOrder("+1222234567", "+1522234533", "+1234567890");
+          .containsExactlyInAnyOrder("+122-2234567", "+152-2234533", "+123-45627890");
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
@@ -117,15 +133,13 @@ public class AddingAdditionalDataTest {
                     "surname": "Smith",
                     "pin": "12345678901",
                     "sex": "MALE",
-                    "emailAddresses": ["johnSmith.gmail.com"],
-                    "phoneNumbers": ["+1234567890"]
+                    "emailAddresses": ["johnSmith@gmail.com"],
+                    "phoneNumbers": ["+123-45627890"]
                 }
         """;
     mockMvc
         .perform(
-            post("/api/v1/persons/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(personJson))
+            post(ApiPaths.PERSONS_PATH).contentType(MediaType.APPLICATION_JSON).content(personJson))
         .andExpect(status().isCreated());
   }
 }
