@@ -36,7 +36,8 @@ You will see the simple frontend used for testing the API.
 - **Spring MVC:** For building the RESTful web service.
 - **Swagger UI:** For API documentation and testing.
 - **Docker:** For containerizing the application.
-- **Other:** JPA, PostgreSQL (if applicable), etc.
+- **JS, HTML, CSS:** For application frontend.
+- **Other:** JPA, PostgreSQL etc.
 
 ## Summary
 
