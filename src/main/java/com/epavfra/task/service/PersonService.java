@@ -2,6 +2,8 @@ package com.epavfra.task.service;
 
 import java.util.Collection;
 
+import com.epavfra.task.dto.AdditionalEmailRequestDto;
+import com.epavfra.task.dto.AdditionalPhoneNumberDto;
 import com.epavfra.task.dto.PersonDto;
 import com.epavfra.task.exception.PersonNotFoundException;
 import com.epavfra.task.model.Person;
@@ -17,10 +19,10 @@ public interface PersonService {
 
   PersonDto createPerson(final PersonDto personDto);
 
-  PersonDto addEmailAddresses(final Long id, final Collection<String> emailAddresses)
+  PersonDto addEmailAddresses(final Long id, final AdditionalEmailRequestDto emailAddresses)
       throws PersonNotFoundException;
 
-  PersonDto addPhoneNumbers(final Long id, final Collection<String> phoneNumbers)
+  PersonDto addPhoneNumbers(final Long id, final AdditionalPhoneNumberDto phoneNumbers)
       throws PersonNotFoundException;
 
   void deletePerson(Long id);

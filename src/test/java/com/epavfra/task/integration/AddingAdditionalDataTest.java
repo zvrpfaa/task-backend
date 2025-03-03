@@ -41,20 +41,23 @@ public class AddingAdditionalDataTest {
   void addAdditionalEmailsTest() throws Exception {
     addPersonToDatabase();
     Long personId = 1L;
-    String url = UriComponentsBuilder.fromUriString(ApiPaths.ADD_ADDRESSES_PATH)
-        .buildAndExpand(personId)
-        .toUriString();
+    String url =
+        UriComponentsBuilder.fromUriString(ApiPaths.ADD_ADDRESSES_PATH)
+            .buildAndExpand(personId)
+            .toUriString();
     mockMvc
         .perform(
             post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-      [
+    {
+    "emailAddresses": [
       "john1@example.com",
       "john2@example.com",
       "john3@example.com"
       ]
+      }
     """))
         .andExpect(status().isCreated());
     EntityManager em = entityManagerFactory.createEntityManager();
@@ -83,19 +86,22 @@ public class AddingAdditionalDataTest {
   void addAdditionalPhoneNumbers() throws Exception {
     addPersonToDatabase();
     Long personId = 1L;
-    String url = UriComponentsBuilder.fromUriString(ApiPaths.ADD_PHONE_NUMBERS_PATH)
-        .buildAndExpand(personId)
-        .toUriString();
+    String url =
+        UriComponentsBuilder.fromUriString(ApiPaths.ADD_PHONE_NUMBERS_PATH)
+            .buildAndExpand(personId)
+            .toUriString();
     mockMvc
         .perform(
             post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
-      [
+      {
+      "phoneNumbers": [
       "+122-2234567",
       "+152-2234533"
       ]
+      }
     """))
         .andExpect(status().isCreated());
     EntityManager em = entityManagerFactory.createEntityManager();

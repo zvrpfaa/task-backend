@@ -1,8 +1,12 @@
 package com.epavfra.task.service;
 
+import com.epavfra.task.dto.AdditionalEmailRequestDto;
+import com.epavfra.task.dto.AdditionalPhoneNumberDto;
 import com.epavfra.task.dto.PersonDto;
 import com.epavfra.task.exception.PersonNotFoundException;
+import com.epavfra.task.mapper.EmailMapper;
 import com.epavfra.task.mapper.PersonMapper;
+import com.epavfra.task.mapper.PhoneNumberMapper;
 import com.epavfra.task.model.Person;
 import com.epavfra.task.repository.PersonRepository;
 import com.epavfra.task.utils.specification.PersonSpecification;
@@ -20,8 +24,7 @@ public class PersonServiceImpl implements PersonService {
 
   private final PersonRepository personRepository;
 
-  public PersonServiceImpl(
-      final PersonRepository personRepository) {
+  public PersonServiceImpl(final PersonRepository personRepository) {
     this.personRepository = personRepository;
   }
 
@@ -34,8 +37,7 @@ public class PersonServiceImpl implements PersonService {
   @Override
   public Collection<PersonDto> filterPersons(
       final String name, final String surname, final String sex) {
-    Specification<Person> spec =
-        PersonSpecification.filterByCriteria(name, surname, sex);
+    Specification<Person> spec = PersonSpecification.filterByCriteria(name, surname, sex);
     return personRepository.findAll(spec).stream()
         .map(PersonMapper.INSTANCE::toDto)
         .collect(Collectors.toSet());
@@ -61,14 +63,14 @@ public class PersonServiceImpl implements PersonService {
       value = OptimisticLockingFailureException.class,
       maxAttempts = 3,
       backoff = @Backoff(delay = 1000))
-  public PersonDto addEmailAddresses(final Long id, final Collection<String> emailAddresses)
+  public PersonDto addEmailAddresses(final Long id, final AdditionalEmailRequestDto emailAddresses)
       throws PersonNotFoundException {
     Person person =
         personRepository
             .findById(id)
             .orElseThrow(
                 () -> new PersonNotFoundException("Person with id " + id + " was not found."));
-    person.getEmailAddresses().addAll(emailAddresses);
+    person.getEmailAddresses().addAll(EmailMapper.INSTANCE.toEntity(emailAddresses));
     Person savedPerson = personRepository.save(person);
     return PersonMapper.INSTANCE.toDto(savedPerson);
   }
@@ -79,14 +81,14 @@ public class PersonServiceImpl implements PersonService {
       value = OptimisticLockingFailureException.class,
       maxAttempts = 3,
       backoff = @Backoff(delay = 1000))
-  public PersonDto addPhoneNumbers(Long id, Collection<String> phoneNumbers)
+  public PersonDto addPhoneNumbers(Long id, AdditionalPhoneNumberDto phoneNumbers)
       throws PersonNotFoundException {
     Person person =
         personRepository
             .findById(id)
             .orElseThrow(
                 () -> new PersonNotFoundException("Person with id " + id + " was not found."));
-    person.getPhoneNumbers().addAll(phoneNumbers);
+    person.getPhoneNumbers().addAll(PhoneNumberMapper.INSTANCE.toEntity(phoneNumbers));
     Person savedPerson = personRepository.save(person);
     return PersonMapper.INSTANCE.toDto(savedPerson);
   }

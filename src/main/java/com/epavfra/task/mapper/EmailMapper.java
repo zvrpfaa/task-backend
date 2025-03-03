@@ -5,8 +5,9 @@ import java.util.Map;
 
 import com.epavfra.task.dto.AdditionalEmailRequestDto;
 
-public class EmailMapper implements Mapper<AdditionalEmailRequestDto, Collection<String>> {
+public enum EmailMapper implements Mapper<AdditionalEmailRequestDto, Collection<String>> {
 
+  INSTANCE;
   @Override
   public AdditionalEmailRequestDto toDto(final Collection<String> entity) {
     return new AdditionalEmailRequestDto(entity);

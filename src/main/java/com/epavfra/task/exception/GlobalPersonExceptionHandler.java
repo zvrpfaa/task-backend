@@ -1,10 +1,8 @@
 package com.epavfra.task.exception;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +25,7 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
       HttpHeaders headers,
       HttpStatusCode status,
       WebRequest request) {
+    String message = "Validation failed for one or more fields";
     List<ErrorResponse.FieldError> fieldErrors =
         ex.getBindingResult().getFieldErrors().stream()
             .map(
@@ -42,9 +41,10 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.BAD_REQUEST.value())
             .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-            .message("Validation failed for one or more fields")
+            .message(message)
             .fieldErrors(fieldErrors)
             .build();
+    log.warn(ex.getMessage());
     return ResponseEntity.badRequest().body(errorResponse);
   }
 
@@ -52,15 +52,15 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
   @ExceptionHandler(OptimisticLockingFailureException.class)
   public ResponseEntity<ErrorResponse> handleOptimisticLockingFailure(
       OptimisticLockingFailureException ex) {
-
+    String message = "The data was modified by another user. Please refresh and try again.";
     ErrorResponse errorResponse =
         ErrorResponse.builder()
             .timestamp(LocalDateTime.now())
             .status(HttpStatus.CONFLICT.value())
             .error(HttpStatus.CONFLICT.getReasonPhrase())
-            .message("The data was modified by another user. Please refresh and try again.")
+            .message(message)
             .build();
-
+    log.warn("{}. Exception message: {}", message, ex.getMessage());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
   }
 
@@ -73,6 +73,7 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
             .error(HttpStatus.NOT_FOUND.getReasonPhrase())
             .message(ex.getMessage())
             .build();
+    log.warn(ex.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
   }
 
@@ -82,10 +83,9 @@ public class GlobalPersonExceptionHandler extends ResponseEntityExceptionHandler
         .timestamp(LocalDateTime.now())
         .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-        .message("An unexpected error occurred. Exception message: " + ex.getMessage())
+        .message("An unexpected error occurred.")
         .build();
-      log.warn("Exception message: {}", ex.getMessage());
-      log.warn("STACK TRACE {}", Arrays.toString(ex.getStackTrace()));
+      log.warn(ex.getMessage());
     return ResponseEntity.internalServerError().body(errorResponse);
   }
 }

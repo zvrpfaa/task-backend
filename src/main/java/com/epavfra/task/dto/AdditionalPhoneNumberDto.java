@@ -6,8 +6,10 @@ import jakarta.validation.constraints.Pattern;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class AdditionalPhoneNumberDto {
 

@@ -4,8 +4,9 @@ import java.util.Collection;
 
 import com.epavfra.task.dto.AdditionalPhoneNumberDto;
 
-public class PhoneNumberMapper implements Mapper<AdditionalPhoneNumberDto, Collection<String>> {
+public enum PhoneNumberMapper implements Mapper<AdditionalPhoneNumberDto, Collection<String>> {
 
+  INSTANCE;
   @Override
   public AdditionalPhoneNumberDto toDto(Collection<String> entity) {
     return new AdditionalPhoneNumberDto(entity);
